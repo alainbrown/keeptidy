@@ -50,8 +50,10 @@ period has elapsed since the last fire. Frequencies: `manual`,
 graphite + lime palette and the three Funnel/JetBrains font families
 (loaded via Google Fonts `@import`). Component CSS should reference
 the variables (`var(--ink)`, `var(--lime)`, etc.) — don't hard-code
-colors. The mockups in `mockup/` are the design reference; the React
-components are 1:1 ports.
+colors. The mockups in `design/` are the design reference; the React
+components are 1:1 ports. The brand mark lives at `design/logo.svg`
+and is rasterized to `public/icons/{16,32,48,128}.png` by
+`npm run icons`.
 
 ## Commands
 
@@ -87,6 +89,7 @@ src/
   lib/        pure logic — types, sweep, history, browsingData, …
   styles/     tokens.css + reset.css
 remotion/     compositions that reuse the surface components
-mockup/       reference HTML — design source of truth
+design/       reference HTML mockups + logo.svg (brand source)
+public/icons/ rasterized PNGs (built from design/logo.svg)
 tests/        unit/ (vitest) + e2e/ (Playwright)
 ```

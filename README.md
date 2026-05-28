@@ -56,7 +56,8 @@ src/
   lib/                # Pure logic — sweep, history, browsingData, alarms
   styles/             # tokens.css + reset.css
 remotion/             # Demo compositions reusing the surface components
-mockup/               # Reference HTML for the design
+design/               # HTML mockups + logo.svg (brand source)
+public/icons/         # Rasterized PNGs (npm run icons → from design/logo.svg)
 tests/
   unit/               # Vitest — pure lib coverage
   e2e/                # Playwright — extension journeys against built dist/
