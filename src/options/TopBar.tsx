@@ -10,7 +10,7 @@ interface TopBarProps {
 export function TopBar({ autoTidy, nextInLabel, today, tidying }: TopBarProps) {
   return (
     <header className="top">
-      <Wordmark size="lg" subtitle="settings · graphite" />
+      <Wordmark size="lg" subtitle="settings" />
       <div className="top-right">
         {tidying ? (
           <span className="tidying">tidying now</span>

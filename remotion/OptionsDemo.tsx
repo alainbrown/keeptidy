@@ -36,7 +36,7 @@ export const OptionsDemo = () => {
           nextInLabel: 'in 47m',
           today: '2026·05·27',
           saved: true,
-          build: 'graphite · 4d',
+          build: 'build 0.1.0',
         }}
         onSettingChange={() => {}}
         onAddExempt={() => {}}

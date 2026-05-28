@@ -110,7 +110,7 @@ export function OptionsContainer() {
         nextInLabel: settings.autoTidy && nextAt ? formatIn(nextAt) : null,
         today: formatDateDots(),
         saved,
-        build: 'graphite · 4d',
+        build: 'build 0.1.0',
       }}
       onSettingChange={onSettingChange}
       onAddExempt={onAddExempt}
