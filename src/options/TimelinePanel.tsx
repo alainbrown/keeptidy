@@ -139,8 +139,20 @@ export function TimelinePanel({
         >
           <defs>
             <linearGradient id="prunedG" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" style={{ stopColor: 'var(--ink)' }} stopOpacity="0.04" />
-              <stop offset="100%" style={{ stopColor: 'var(--ink)' }} stopOpacity="0.14" />
+              <stop
+                offset="0%"
+                style={{
+                  stopColor: 'var(--ink)',
+                  stopOpacity: 'var(--tl-pruned-stop-1)',
+                }}
+              />
+              <stop
+                offset="100%"
+                style={{
+                  stopColor: 'var(--ink)',
+                  stopOpacity: 'var(--tl-pruned-stop-2)',
+                }}
+              />
             </linearGradient>
             <linearGradient id="keptG" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" style={{ stopColor: 'var(--lime)' }} stopOpacity="0.28" />

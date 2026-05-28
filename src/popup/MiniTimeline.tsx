@@ -62,8 +62,20 @@ export function MiniTimeline({
       >
         <defs>
           <linearGradient id="popPruned" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" style={{ stopColor: INK.color }} stopOpacity="0.05" />
-            <stop offset="100%" style={{ stopColor: INK.color }} stopOpacity="0.16" />
+            <stop
+              offset="0%"
+              style={{
+                stopColor: INK.color,
+                stopOpacity: 'var(--tl-pruned-stop-1)',
+              }}
+            />
+            <stop
+              offset="100%"
+              style={{
+                stopColor: INK.color,
+                stopOpacity: 'var(--tl-pruned-stop-2)',
+              }}
+            />
           </linearGradient>
           <linearGradient id="popKept" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" style={{ stopColor: LIME.color }} stopOpacity="0.35" />

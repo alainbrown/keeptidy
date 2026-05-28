@@ -20,6 +20,12 @@
   --surface-raised: #14141a;
   --surface-raised-fg: #c8ff00;
 
+  /* Opacities for the timeline "pruned" gradient stops. Tuned per theme
+     because at low alpha, dark-ink-on-white reads at very different
+     visual weight than light-ink-on-dark. */
+  --tl-pruned-stop-1: 0.05;
+  --tl-pruned-stop-2: 0.16;
+
   --font-display: "Funnel Display", sans-serif;
   --font-sans: "Funnel Sans", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
@@ -35,8 +41,8 @@
        for light-on-dark than dark-on-light at the same ratio. */
     --ink-2: #d0d0d4;
     --ink-3: #92929a;
-    --rule: #2a2a30;
-    --rule-2: #3a3a42;
+    --rule: #3a3a42;
+    --rule-2: #4a4a55;
     --panel: #202028;
     /* lime stays — works on both grounds. lime-deep brightens for
        readable contrast on dark surfaces. */
@@ -45,5 +51,10 @@
     --surface-raised: #2a2a30;
     /* fg stays lime — the lime accent on a dark raised surface reads in
        both themes. */
+
+    /* Pruned-region gradient needs more alpha on dark — light ink at
+       0.05/0.16 opacity is nearly invisible against the dark panel. */
+    --tl-pruned-stop-1: 0.18;
+    --tl-pruned-stop-2: 0.28;
   }
 }
