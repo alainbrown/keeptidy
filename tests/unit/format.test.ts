@@ -3,7 +3,6 @@ import {
   formatAgo,
   formatDateDots,
   formatDayMonth,
-  formatFrequency,
   formatIn,
   formatThresholdCard,
   formatThresholdMs,
@@ -82,15 +81,6 @@ describe('formatDateDots', () => {
   it('formats as YYYY·MM·DD', () => {
     const ts = new Date('2026-05-27T12:00:00Z').getTime();
     expect(formatDateDots(ts)).toMatch(/^\d{4}·\d{2}·\d{2}$/);
-  });
-});
-
-describe('formatFrequency', () => {
-  it('maps presets to human labels', () => {
-    expect(formatFrequency('manual')).toBe('manual only');
-    expect(formatFrequency('hourly')).toBe('every hour');
-    expect(formatFrequency('6h')).toBe('every 6 hours');
-    expect(formatFrequency('24h')).toBe('every 24 hours');
   });
 });
 

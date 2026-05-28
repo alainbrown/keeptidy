@@ -1,64 +1,41 @@
 import { expect, test } from './fixtures';
 
-test('options page applies dark tokens when the system prefers dark', async ({
+/**
+ * Asserts that the dark @media block doesn't just exist on :root, but
+ * that its values actually flow through to the rendered DOM — both via
+ * normal CSS inheritance (the wordmark text color) and via the inline
+ * `style={{ stroke: 'var(--ink)' }}` pattern we use on the timeline SVG.
+ *
+ * Replaces an earlier pair of tests that just locked specific hex values
+ * on :root — those passed even when the cascade was broken at the SVG
+ * level, which defeats the point.
+ */
+test('dark mode propagates to rendered DOM (text + SVG inline style)', async ({
   context,
   extensionId,
 }) => {
   const page = await context.newPage();
-  // Override prefers-color-scheme for this page; defaults in our fixture are
-  // unspecified, so without this the page would render in light mode.
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto(`chrome-extension://${extensionId}/src/options/index.html`);
-
-  // Wait until the page has actually rendered the OptionsContainer.
   await expect(page.locator('.wordmark h1')).toBeVisible();
 
-  // The dark-mode @media block in tokens.css should have flipped the
-  // canonical tokens. We read them off :root via getPropertyValue.
-  const tokens = await page.evaluate(() => {
-    const style = getComputedStyle(document.documentElement);
-    return {
-      bg1: style.getPropertyValue('--bg-1').trim(),
-      ink: style.getPropertyValue('--ink').trim(),
-      ink2: style.getPropertyValue('--ink-2').trim(),
-      ink3: style.getPropertyValue('--ink-3').trim(),
-      panel: style.getPropertyValue('--panel').trim(),
-      surfaceRaised: style.getPropertyValue('--surface-raised').trim(),
-      // lime should stay the same across themes
-      lime: style.getPropertyValue('--lime').trim(),
-    };
+  // The wordmark inherits its color from body, which uses var(--ink). In
+  // dark mode --ink is #f6f6f3 → rgb(246, 246, 243). This verifies the
+  // ordinary CSS inheritance path.
+  const wordmarkColor = await page
+    .locator('.wordmark h1')
+    .evaluate((el) => getComputedStyle(el).color);
+  expect(wordmarkColor).toBe('rgb(246, 246, 243)');
+
+  // The timeline threshold marker uses style={{ stroke: 'var(--ink)' }} —
+  // this exercises the path where we set CSS variables inside the SVG
+  // `style` attribute (the only way to make SVG presentation attributes
+  // theme-aware, since SVG attributes like `stroke="..."` don't resolve
+  // CSS variables). If we ever break that wiring, this assertion catches
+  // it.
+  const markerStroke = await page.evaluate(() => {
+    const circle = document.querySelector('.tl svg circle[r="8"]');
+    return circle ? getComputedStyle(circle).stroke : null;
   });
-
-  expect(tokens.bg1).toBe('#131316');
-  expect(tokens.ink).toBe('#f6f6f3');
-  // Secondary text tokens need enough luminance on the dark ground —
-  // verify both are bright enough to remain readable.
-  expect(tokens.ink2).toBe('#d0d0d4');
-  expect(tokens.ink3).toBe('#92929a');
-  expect(tokens.panel).toBe('#202028');
-  expect(tokens.surfaceRaised).toBe('#2a2a30');
-  expect(tokens.lime).toBe('#c8ff00');
-});
-
-test('options page applies light tokens when the system prefers light', async ({
-  context,
-  extensionId,
-}) => {
-  const page = await context.newPage();
-  await page.emulateMedia({ colorScheme: 'light' });
-  await page.goto(`chrome-extension://${extensionId}/src/options/index.html`);
-  await expect(page.locator('.wordmark h1')).toBeVisible();
-
-  const tokens = await page.evaluate(() => {
-    const style = getComputedStyle(document.documentElement);
-    return {
-      bg1: style.getPropertyValue('--bg-1').trim(),
-      ink: style.getPropertyValue('--ink').trim(),
-      surfaceRaised: style.getPropertyValue('--surface-raised').trim(),
-    };
-  });
-
-  expect(tokens.bg1).toBe('#f6f6f3');
-  expect(tokens.ink).toBe('#14141a');
-  expect(tokens.surfaceRaised).toBe('#14141a');
+  expect(markerStroke).toBe('rgb(246, 246, 243)');
 });

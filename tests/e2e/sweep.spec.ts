@@ -55,3 +55,106 @@ test('manual sweep deletes history older than the threshold and keeps fresh entr
   expect(remaining).not.toContain('https://old1.keeptidy.example/');
   expect(remaining).not.toContain('https://old2.keeptidy.example/');
 });
+
+test('sweep skips history when categories.history is disabled', async ({
+  context,
+  extensionId,
+}) => {
+  const page = await context.newPage();
+  await page.goto(`chrome-extension://${extensionId}/src/options/index.html`);
+  await expect(page.locator('.wordmark h1')).toBeVisible();
+
+  // Same tight-threshold setup as the happy-path sweep, but with the
+  // history category flag turned OFF. The sweep should run, but the
+  // per-entry history deletion path should be skipped.
+  await page.evaluate(async () => {
+    await chrome.storage.sync.set({
+      settings: {
+        thresholdMs: 2000,
+        frequency: 'manual',
+        exemptDomains: [],
+        autoTidy: false,
+        categories: {
+          history: false,
+          downloads: true,
+          cookies: true,
+          siteData: true,
+        },
+      },
+    });
+  });
+
+  await page.evaluate(async () => {
+    await chrome.history.addUrl({ url: 'https://gated.keeptidy.example/' });
+  });
+
+  // Age it past the 2s threshold — under normal settings this entry
+  // would get deleted by the sweep.
+  await page.waitForTimeout(2500);
+
+  const result = await page.evaluate(async () => {
+    return await chrome.runtime.sendMessage({ type: 'tidy-now' });
+  });
+  expect(result).toMatchObject({ ok: true });
+
+  // History entry must still be there — the gating short-circuited.
+  const remaining = await page.evaluate(async () => {
+    const items = await chrome.history.search({
+      text: 'gated.keeptidy.example',
+      maxResults: 100,
+      startTime: 0,
+    });
+    return items.map((i) => i.url);
+  });
+  expect(remaining).toContain('https://gated.keeptidy.example/');
+});
+
+test('erase-all wipes history regardless of threshold and exempt list', async ({
+  context,
+  extensionId,
+}) => {
+  const page = await context.newPage();
+  await page.goto(`chrome-extension://${extensionId}/src/options/index.html`);
+  await expect(page.locator('.wordmark h1')).toBeVisible();
+
+  // Configure a wide threshold + put the URL in the exempt list. Under
+  // a normal sweep this would protect the entry; erase-all is the
+  // override-everything button and should still wipe it.
+  await page.evaluate(async () => {
+    await chrome.storage.sync.set({
+      settings: {
+        thresholdMs: 60 * 24 * 60 * 60 * 1000, // 60 days — fresh entries are safe
+        frequency: 'manual',
+        exemptDomains: ['nuke.keeptidy.example'],
+        autoTidy: false,
+        categories: {
+          history: true,
+          downloads: true,
+          cookies: true,
+          siteData: true,
+        },
+      },
+    });
+  });
+
+  await page.evaluate(async () => {
+    await chrome.history.addUrl({ url: 'https://nuke.keeptidy.example/' });
+    await chrome.history.addUrl({ url: 'https://other.keeptidy.example/' });
+  });
+
+  const result = await page.evaluate(async () => {
+    return await chrome.runtime.sendMessage({ type: 'erase-all' });
+  });
+  expect(result).toMatchObject({ ok: true });
+
+  const remaining = await page.evaluate(async () => {
+    const items = await chrome.history.search({
+      text: 'keeptidy.example',
+      maxResults: 100,
+      startTime: 0,
+    });
+    return items.map((i) => i.url);
+  });
+  expect(remaining).not.toContain('https://nuke.keeptidy.example/');
+  expect(remaining).not.toContain('https://other.keeptidy.example/');
+});
