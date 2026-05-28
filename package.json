@@ -20,21 +20,26 @@
     "remotion:render:options": "remotion render remotion/index.ts Options out/options.mp4"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.25",
-    "@playwright/test": "^1.49.0",
+    "@playwright/test": "^1.60.0",
     "@remotion/cli": "^4.0.190",
-    "@types/chrome": "^0.0.270",
-    "@types/node": "^22.9.0",
-    "@types/react": "^18.3.5",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
+    "@types/chrome": "^0.1.42",
+    "@types/node": "^24.12.4",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
     "remotion": "^4.0.190",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.6",
-    "vitest": "^2.1.0"
+    "typescript": "^6.0.3",
+    "vite": "^8.0.14",
+    "vitest": "^4.1.7"
+  },
+  "overrides": {
+    "@crxjs/vite-plugin": {
+      "rollup": "^2.80.0"
+    }
   }
 }

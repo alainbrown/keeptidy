@@ -3,6 +3,7 @@ import { eraseAllBrowsingData } from '../lib/browsingData';
 import { getSettings } from '../lib/chromeStorage';
 import type { Message, Response } from '../lib/messaging';
 import { previewSweep, runSweep } from '../lib/sweep';
+import type { Settings } from '../lib/types';
 
 async function bootstrap() {
   const s = await getSettings();
@@ -19,7 +20,7 @@ chrome.runtime.onStartup.addListener(() => {
 
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== 'sync' || !changes.settings) return;
-  const next = changes.settings.newValue;
+  const next = changes.settings.newValue as Settings | undefined;
   if (!next) return;
   void reconcileAlarm(next.autoTidy, next.frequency);
 });

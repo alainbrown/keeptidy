@@ -4,8 +4,14 @@ export async function clearDomainData(
 ): Promise<void> {
   if (domains.length === 0) return;
   if (Object.keys(dataToRemove).length === 0) return;
-  const origins = domains.flatMap((d) => [`https://${d}`, `http://${d}`]);
-  await chrome.browsingData.remove({ origins }, dataToRemove);
+  // chrome.browsingData.RemovalOptions.origins is typed as a non-empty
+  // tuple [string, ...string[]] since @types/chrome 0.1.x; the
+  // domains.length === 0 guard above already enforces that at runtime.
+  const [first, ...rest] = domains.flatMap((d) => [
+    `https://${d}`,
+    `http://${d}`,
+  ]);
+  await chrome.browsingData.remove({ origins: [first, ...rest] }, dataToRemove);
 }
 
 export async function deleteOldHistory(beforeMs: number): Promise<number> {
