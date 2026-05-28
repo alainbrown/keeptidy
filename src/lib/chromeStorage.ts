@@ -13,8 +13,6 @@ export const SETTINGS_DEFAULTS: Settings = {
     '127.0.0.1',
     'github.com',
     '*.notion.so',
-    'mail.google.com',
-    'accounts.google.com',
     'login.microsoftonline.com',
     '*.slack.com',
     '*.atlassian.net',
@@ -22,7 +20,7 @@ export const SETTINGS_DEFAULTS: Settings = {
     '*.figma.com',
     '*.linkedin.com',
     '*.dropbox.com',
-    'chromewebstore.google.com',
+    '*.google.com',
   ],
   autoTidy: true,
   categories: {
