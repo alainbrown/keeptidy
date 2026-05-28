@@ -4,6 +4,9 @@ dist/
 build/
 out/
 .remotion/
+.claude/
+test-results/
+playwright-report/
 *.log
 .env
 .env.local
