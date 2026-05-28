@@ -5,6 +5,8 @@ you've stopped using — history, cookies, local storage, IndexedDB,
 service workers, and cache — while leaving bookmarks and passwords
 untouched.
 
+![keeptidy demo](docs/demo.gif)
+
 ## What it does
 
 Once a domain hasn't appeared in your history within the configured
@@ -90,12 +92,30 @@ as an unpacked extension. Two journeys:
    trigger `tidy-now` via the service worker, and verify only the
    intended entries are gone.
 
-## Remotion demos
+## Demo + Chrome Web Store assets
+
+The README hero GIF and the Chrome Web Store assets (5 screenshots,
+promo tile, marquee) are all rendered from the same Remotion project
+in `remotion/`, reusing the live `Popup` and Options panel
+components with mock props. A Dockerfile pins ffmpeg + Chromium so
+the render is reproducible:
 
 ```sh
-npm run remotion:studio                  # interactive preview
-npm run remotion:render:popup            # → out/popup.mp4
-npm run remotion:render:options          # → out/options.mp4
+# Build the render image once, then render everything to docs/.
+npm run render:docker
+
+# Outputs:
+#   docs/demo.gif                                 720×720 (README hero)
+#   docs/store/screenshot-{1..5}.png              1280×800 (CWS screenshots)
+#   docs/store/promo-tile.png                     440×280  (CWS small tile)
+#   docs/store/marquee.png                        1400×560 (CWS marquee)
+```
+
+For local iteration without Docker (needs `ffmpeg` on `$PATH`):
+
+```sh
+npm run render:assets       # the same shell pipeline, run on your host
+npm run remotion:studio     # interactive Remotion preview
 ```
 
 ## Permissions

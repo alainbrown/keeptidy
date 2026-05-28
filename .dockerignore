@@ -1,0 +1,13 @@
+.git
+.gitignore
+node_modules
+dist
+out
+.remotion
+.claude
+test-results
+playwright-report
+.DS_Store
+*.log
+docs/demo.gif
+docs/store

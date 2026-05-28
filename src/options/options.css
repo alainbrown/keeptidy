@@ -157,6 +157,7 @@ body::before {
   font-size: 38px;
   line-height: 1;
   letter-spacing: -0.04em;
+  white-space: nowrap;
 }
 .tl-stat .v em {
   font-weight: 700;
