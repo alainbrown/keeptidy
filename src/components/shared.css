@@ -1,0 +1,100 @@
+/* Wordmark */
+.wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.wordmark h1 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.wordmark h1 em {
+  font-style: normal;
+  font-weight: 700;
+}
+.wordmark h1 em::after {
+  content: ".";
+  color: var(--lime-deep);
+}
+.wordmark-sm h1 {
+  font-size: 22px;
+}
+.wordmark-lg {
+  gap: 16px;
+}
+.wordmark-lg h1 {
+  font-size: 42px;
+  letter-spacing: -0.05em;
+}
+.wordmark .v,
+.wordmark .sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  padding-bottom: 2px;
+}
+.wordmark-lg .sub {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+}
+
+/* StatusPill */
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.status .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink-3);
+}
+.status-on .dot {
+  background: var(--lime);
+  box-shadow: 0 0 0 3px rgba(200, 255, 0, 0.3), 0 0 6px rgba(200, 255, 0, 0.6);
+}
+
+/* Switch */
+.switch {
+  position: relative;
+  width: 42px;
+  height: 22px;
+  background: var(--bg-2);
+  border: 1px solid var(--rule-2);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+.switch::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 18px;
+  height: 18px;
+  background: var(--ink);
+  border-radius: 50%;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.switch.on {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.switch.on::after {
+  background: var(--lime);
+  transform: translateX(20px);
+  box-shadow: 0 0 0 2px var(--ink), 0 0 8px rgba(200, 255, 0, 0.5);
+}

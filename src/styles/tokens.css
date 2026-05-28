@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  --bg-1: #f6f6f3;
+  --bg-2: #ececea;
+  --ink: #14141a;
+  --ink-2: #56565a;
+  --ink-3: #9a9a98;
+  --rule: #e0e0dd;
+  --rule-2: #c9c9c4;
+  --panel: #ffffff;
+  --lime: #c8ff00;
+  --lime-2: #aede12;
+  --lime-deep: #6f8a00;
+  --red: #ff3a21;
+
+  --font-display: "Funnel Display", sans-serif;
+  --font-sans: "Funnel Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}

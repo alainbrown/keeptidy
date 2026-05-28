@@ -1,0 +1,29 @@
+{
+  "name": "keeptidy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "remotion:studio": "remotion studio remotion/index.ts",
+    "remotion:render:popup": "remotion render remotion/index.ts Popup out/popup.mp4",
+    "remotion:render:options": "remotion render remotion/index.ts Options out/options.mp4"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.25",
+    "@remotion/cli": "^4.0.190",
+    "@types/chrome": "^0.0.270",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "remotion": "^4.0.190",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.6"
+  }
+}

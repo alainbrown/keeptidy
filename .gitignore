@@ -2,6 +2,8 @@
 node_modules/
 dist/
 build/
+out/
+.remotion/
 *.log
 .env
 .env.local
