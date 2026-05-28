@@ -30,3 +30,8 @@ export interface DomainBucket {
   lastVisitAgoMs: number;
   domainCount: number;
 }
+
+export interface InFlight {
+  startedAt: number;
+  trigger: 'auto' | 'manual';
+}

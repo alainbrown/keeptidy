@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { DomainBucket, ThresholdPreset } from '../lib/types';
-import { useRuns, useSettings } from '../lib/useChromeStorage';
+import { useInFlight, useRuns, useSettings } from '../lib/useChromeStorage';
 import {
   bucketDomains,
   getAllDomainsWithLastVisit,
@@ -21,11 +21,13 @@ import { Popup } from './Popup';
 export function PopupContainer() {
   const [settings, updateSetting] = useSettings();
   const runs = useRuns();
+  const inFlight = useInFlight();
   const [pendingCount, setPendingCount] = useState(0);
   const [buckets, setBuckets] = useState<DomainBucket[]>([]);
 
   const thresholdMs = settings?.thresholdMs;
   const exemptKey = settings?.exemptDomains.join(',');
+  const lastRunTs = runs[0]?.ts;
 
   useEffect(() => {
     if (!settings) return;
@@ -44,7 +46,7 @@ export function PopupContainer() {
     return () => {
       alive = false;
     };
-  }, [thresholdMs, exemptKey]);
+  }, [thresholdMs, exemptKey, lastRunTs]);
 
   const onTidyNow = useCallback(() => {
     chrome.runtime.sendMessage({ type: 'tidy-now' });
@@ -82,6 +84,7 @@ export function PopupContainer() {
       }}
       frequency={{ label: formatFrequency(settings.frequency) }}
       autoTidy={settings.autoTidy}
+      tidying={inFlight !== null}
       lastSweep={
         lastSweepRun
           ? {

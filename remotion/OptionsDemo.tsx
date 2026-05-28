@@ -26,6 +26,7 @@ export const OptionsDemo = () => {
           keptCount: 20530,
           domainBuckets: MOCK_BUCKETS,
           runs: MOCK_RUNS,
+          tidying: false,
           nextInLabel: 'in 47m',
           today: '2026·05·27',
           saved: true,

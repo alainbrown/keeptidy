@@ -1,5 +1,10 @@
 import type { Run } from './types';
-import { appendRun, getSettings } from './chromeStorage';
+import {
+  appendRun,
+  clearInFlight,
+  getSettings,
+  setInFlight,
+} from './chromeStorage';
 import {
   type DomainLastVisit,
   getAllDomainsWithLastVisit,
@@ -15,6 +20,8 @@ export async function runSweep(trigger: 'auto' | 'manual'): Promise<Run> {
   const startedAt = Date.now();
   const settings = await getSettings();
   const cutoff = startedAt - settings.thresholdMs;
+
+  await setInFlight({ startedAt, trigger });
 
   try {
     const domains = await getAllDomainsWithLastVisit();
@@ -51,6 +58,8 @@ export async function runSweep(trigger: 'auto' | 'manual'): Promise<Run> {
     };
     await appendRun(run);
     return run;
+  } finally {
+    await clearInFlight();
   }
 }
 

@@ -43,6 +43,7 @@ export const PopupDemo = () => {
           threshold={{ ms: 60 * DAY, label: '2 months' }}
           frequency={{ label: 'every 6 hours' }}
           autoTidy={true}
+          tidying={frame >= 60 && frame < 120}
           lastSweep={{ agoLabel: '3d ago', count: 874 }}
           domainBuckets={MOCK_BUCKETS}
           thresholdPresetValue="2mo"

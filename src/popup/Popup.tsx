@@ -10,6 +10,7 @@ export interface PopupProps {
   threshold: { ms: number; label: string };
   frequency: { label: string };
   autoTidy: boolean;
+  tidying: boolean;
   lastSweep: { agoLabel: string; count: number } | null;
   domainBuckets: DomainBucket[];
   thresholdPresetValue: ThresholdPreset | 'custom';
@@ -28,6 +29,7 @@ export function Popup(props: PopupProps) {
     threshold,
     frequency,
     autoTidy,
+    tidying,
     lastSweep,
     domainBuckets,
     thresholdPresetValue,
@@ -64,8 +66,12 @@ export function Popup(props: PopupProps) {
         lastSweep={lastSweep}
       />
 
-      <button className="primary" onClick={onTidyNow}>
-        <span>Tidy now</span>
+      <button
+        className="primary"
+        onClick={onTidyNow}
+        disabled={tidying}
+      >
+        <span>{tidying ? 'Tidying…' : 'Tidy now'}</span>
         <span className="pcount">
           {fmt(pendingCount)} <span className="arrow">→</span>
         </span>

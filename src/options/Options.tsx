@@ -13,6 +13,7 @@ export interface OptionsProps {
     keptCount: number;
     domainBuckets: DomainBucket[];
     runs: Run[];
+    tidying: boolean;
     nextInLabel: string | null;
     today: string;
     saved: boolean;
@@ -34,6 +35,7 @@ export function Options(props: OptionsProps) {
         autoTidy={settings.autoTidy}
         nextInLabel={vm.nextInLabel}
         today={vm.today}
+        tidying={vm.tidying}
       />
 
       <TimelinePanel

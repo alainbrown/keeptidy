@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { DomainBucket, Settings } from '../lib/types';
-import { useRuns, useSettings } from '../lib/useChromeStorage';
+import { useInFlight, useRuns, useSettings } from '../lib/useChromeStorage';
 import {
   bucketDomains,
   getAllDomainsWithLastVisit,
@@ -13,6 +13,7 @@ import { Options } from './Options';
 export function OptionsContainer() {
   const [settings, updateSetting] = useSettings();
   const runs = useRuns();
+  const inFlight = useInFlight();
   const [pendingCount, setPendingCount] = useState(0);
   const [keptCount, setKeptCount] = useState(0);
   const [buckets, setBuckets] = useState<DomainBucket[]>([]);
@@ -21,6 +22,7 @@ export function OptionsContainer() {
 
   const thresholdMs = settings?.thresholdMs;
   const exemptKey = settings?.exemptDomains.join(',');
+  const lastRunTs = runs[0]?.ts;
 
   useEffect(() => {
     if (!settings) return;
@@ -40,7 +42,7 @@ export function OptionsContainer() {
     return () => {
       alive = false;
     };
-  }, [thresholdMs, exemptKey]);
+  }, [thresholdMs, exemptKey, lastRunTs]);
 
   useEffect(() => {
     let alive = true;
@@ -104,6 +106,7 @@ export function OptionsContainer() {
         keptCount,
         domainBuckets: buckets,
         runs,
+        tidying: inFlight !== null,
         nextInLabel: settings.autoTidy && nextAt ? formatIn(nextAt) : null,
         today: formatDateDots(),
         saved,

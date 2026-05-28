@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { Run, Settings } from './types';
-import { getRuns, getSettings, setSettings } from './chromeStorage';
+import type { InFlight, Run, Settings } from './types';
+import {
+  getInFlight,
+  getRuns,
+  getSettings,
+  setSettings,
+} from './chromeStorage';
 
 export function useSettings() {
   const [settings, setSettingsState] = useState<Settings | null>(null);
@@ -59,4 +64,32 @@ export function useRuns() {
   }, []);
 
   return runs;
+}
+
+export function useInFlight() {
+  const [inFlight, setInFlightState] = useState<InFlight | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getInFlight().then((v) => {
+      if (mounted) setInFlightState(v);
+    });
+    const handler = (
+      changes: Record<string, chrome.storage.StorageChange>,
+      area: chrome.storage.AreaName,
+    ) => {
+      if (area === 'local' && changes.inFlight) {
+        setInFlightState(
+          (changes.inFlight.newValue ?? null) as InFlight | null,
+        );
+      }
+    };
+    chrome.storage.onChanged.addListener(handler);
+    return () => {
+      mounted = false;
+      chrome.storage.onChanged.removeListener(handler);
+    };
+  }, []);
+
+  return inFlight;
 }
