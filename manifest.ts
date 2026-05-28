@@ -32,6 +32,5 @@ export default defineManifest({
     'alarms',
     'downloads',
     'browsingData',
-    'cookies',
   ],
 });
