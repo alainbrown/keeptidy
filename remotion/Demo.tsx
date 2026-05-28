@@ -75,7 +75,15 @@ const baseSettings = (
 ): Settings => ({
   thresholdMs,
   frequency: '6h',
-  exemptDomains: ['github.com', '*.notion.so', 'mail.google.com', 'localhost'],
+  exemptDomains: [
+    'localhost',
+    'github.com',
+    '*.notion.so',
+    'mail.google.com',
+    'accounts.google.com',
+    '*.slack.com',
+    '*.figma.com',
+  ],
   autoTidy: true,
   categories: {
     history: true,

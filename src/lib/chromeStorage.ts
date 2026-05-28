@@ -5,7 +5,25 @@ const DAY = 24 * 60 * 60 * 1000;
 export const SETTINGS_DEFAULTS: Settings = {
   thresholdMs: 60 * DAY,
   frequency: '6h',
-  exemptDomains: ['github.com', '*.notion.so', 'mail.google.com', 'localhost'],
+  // Anchored on auth/SSO endpoints (where losing the session re-auths a
+  // whole ecosystem) plus high-friction work tools. Users can edit
+  // freely; this is just a sensible starting set.
+  exemptDomains: [
+    'localhost',
+    '127.0.0.1',
+    'github.com',
+    '*.notion.so',
+    'mail.google.com',
+    'accounts.google.com',
+    'login.microsoftonline.com',
+    '*.slack.com',
+    '*.atlassian.net',
+    '*.zoom.us',
+    '*.figma.com',
+    '*.linkedin.com',
+    '*.dropbox.com',
+    'chromewebstore.google.com',
+  ],
   autoTidy: true,
   categories: {
     history: true,

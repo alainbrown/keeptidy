@@ -23,7 +23,15 @@ export const Screenshot3 = () => (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
         <FrequencyPanel value="6h" onChange={() => {}} />
         <ExemptDomainsPanel
-          domains={['github.com', '*.notion.so', 'mail.google.com', 'localhost']}
+          domains={[
+            'github.com',
+            '*.notion.so',
+            'mail.google.com',
+            'accounts.google.com',
+            '*.slack.com',
+            '*.figma.com',
+            'localhost',
+          ]}
           onAdd={() => {}}
           onRemove={() => {}}
         />
