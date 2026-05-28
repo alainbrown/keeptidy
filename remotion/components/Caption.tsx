@@ -49,7 +49,8 @@ export const Caption = ({
             fontSize: 11,
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
-            color: 'rgba(246, 246, 243, 0.55)',
+            color: 'currentColor',
+            opacity: 0.55,
             marginBottom: 14,
           }}
         >
@@ -63,7 +64,7 @@ export const Caption = ({
           fontWeight: 300,
           letterSpacing: '-0.03em',
           lineHeight: 1.05,
-          color: '#f6f6f3',
+          color: 'inherit',
         }}
       >
         {title}
@@ -73,7 +74,8 @@ export const Caption = ({
           style={{
             fontFamily: '"Funnel Sans", sans-serif',
             fontSize: 17,
-            color: 'rgba(246, 246, 243, 0.65)',
+            color: 'currentColor',
+            opacity: 0.65,
             marginTop: 12,
             lineHeight: 1.45,
             maxWidth: 520,

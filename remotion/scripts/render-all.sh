@@ -12,19 +12,18 @@ cd "$ROOT"
 
 mkdir -p docs/store
 
-echo "→ Rendering demo composition to MP4 (intermediate)…"
-TMP_MP4="$(mktemp -t keeptidy-demo.XXXXXX).mp4"
-npx remotion render remotion/index.ts Demo "$TMP_MP4" \
+echo "→ Rendering demo composition to MP4 (1280×720, ~20s)…"
+npx remotion render remotion/index.ts Demo docs/demo.mp4 \
   --concurrency=1 \
   --log=warn
+echo "  → docs/demo.mp4 (for YouTube / Chrome Web Store)"
 
-echo "→ Encoding GIF (palette-quantized, 20fps)…"
-ffmpeg -y -i "$TMP_MP4" \
-  -vf "fps=20,scale=720:720:flags=lanczos,split[a][b];[a]palettegen=max_colors=128[p];[b][p]paletteuse=dither=bayer:bayer_scale=5" \
+echo "→ Encoding GIF from MP4 (palette-quantized, 20fps, 640px wide)…"
+ffmpeg -y -i docs/demo.mp4 \
+  -vf "fps=20,scale=640:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128[p];[b][p]paletteuse=dither=bayer:bayer_scale=5" \
   -loop 0 \
   docs/demo.gif
-rm -f "$TMP_MP4"
-echo "  → docs/demo.gif"
+echo "  → docs/demo.gif (for README)"
 
 echo "→ Rendering Chrome Web Store screenshots (1280×800)…"
 for i in 1 2 3 4 5; do

@@ -7,6 +7,8 @@ untouched.
 
 ![keeptidy demo](docs/demo.gif)
 
+[Higher-quality MP4 →](docs/demo.mp4) (1280×720, ~20s)
+
 ## What it does
 
 Once a domain hasn't appeared in your history within the configured
@@ -94,18 +96,18 @@ as an unpacked extension. Two journeys:
 
 ## Demo + Chrome Web Store assets
 
-The README hero GIF and the Chrome Web Store assets (5 screenshots,
-promo tile, marquee) are all rendered from the same Remotion project
-in `remotion/`, reusing the live `Popup` and Options panel
-components with mock props. A Dockerfile pins ffmpeg + Chromium so
-the render is reproducible:
+The README hero GIF + MP4 and the Chrome Web Store assets are all
+rendered from the same Remotion project in `remotion/`, reusing the
+live `Popup` and Options panel components with mock props. A
+Dockerfile pins ffmpeg + Chromium so the render is reproducible:
 
 ```sh
 # Build the render image once, then render everything to docs/.
 npm run render:docker
 
 # Outputs:
-#   docs/demo.gif                                 720×720 (README hero)
+#   docs/demo.mp4                                 1280×720 (YouTube / CWS listing)
+#   docs/demo.gif                                 640×360  (README hero, scaled from MP4)
 #   docs/store/screenshot-{1..5}.png              1280×800 (CWS screenshots)
 #   docs/store/promo-tile.png                     440×280  (CWS small tile)
 #   docs/store/marquee.png                        1400×560 (CWS marquee)

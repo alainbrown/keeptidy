@@ -22,8 +22,11 @@ RUN apt-get update \
 WORKDIR /app
 
 # Dependency layer (cacheable across source changes).
+# --legacy-peer-deps matches the host install — needed because some
+# Remotion packages declare narrow peer ranges on react that npm's
+# strict resolver objects to even though the actual runtime works fine.
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund
+RUN npm ci --no-audit --no-fund --legacy-peer-deps
 
 # Source.
 COPY . .

@@ -15,9 +15,7 @@
     "icons": "node scripts/render-icons.mjs",
     "render:assets": "bash remotion/scripts/render-all.sh",
     "render:docker": "docker build -t keeptidy-render -f remotion/Dockerfile . && docker run --rm -v \"$(pwd)/docs:/app/docs\" keeptidy-render",
-    "remotion:studio": "remotion studio remotion/index.ts",
-    "remotion:render:popup": "remotion render remotion/index.ts Popup out/popup.mp4",
-    "remotion:render:options": "remotion render remotion/index.ts Options out/options.mp4"
+    "remotion:studio": "remotion studio remotion/index.ts"
   },
   "dependencies": {
     "react": "^19.2.6",

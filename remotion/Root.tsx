@@ -1,7 +1,5 @@
 import { Composition, Still } from 'remotion';
 import { Demo } from './Demo';
-import { OptionsDemo } from './OptionsDemo';
-import { PopupDemo } from './PopupDemo';
 import { Screenshot1 } from './screenshots/Screenshot1';
 import { Screenshot2 } from './screenshots/Screenshot2';
 import { Screenshot3 } from './screenshots/Screenshot3';
@@ -12,13 +10,14 @@ import { PromoTile } from './store/PromoTile';
 
 export const RemotionRoot = () => (
   <>
-    {/* Demo GIF (README hero) */}
+    {/* Demo · 1280×720 · 20s @ 30fps. Renders to MP4 (YouTube / CWS)
+        and a scaled-down GIF (README hero). */}
     <Composition
       id="Demo"
       component={Demo}
-      durationInFrames={330}
+      durationInFrames={600}
       fps={30}
-      width={720}
+      width={1280}
       height={720}
     />
 
@@ -32,23 +31,5 @@ export const RemotionRoot = () => (
     {/* Chrome Web Store · promo tiles */}
     <Still id="PromoTile" component={PromoTile} width={440} height={280} />
     <Still id="Marquee" component={Marquee} width={1400} height={560} />
-
-    {/* Legacy single-surface previews (kept for design iteration) */}
-    <Composition
-      id="Popup"
-      component={PopupDemo}
-      durationInFrames={180}
-      fps={30}
-      width={760}
-      height={760}
-    />
-    <Composition
-      id="Options"
-      component={OptionsDemo}
-      durationInFrames={240}
-      fps={30}
-      width={1440}
-      height={900}
-    />
   </>
 );
