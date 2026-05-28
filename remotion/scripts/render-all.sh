@@ -3,9 +3,11 @@ set -euo pipefail
 
 # Render the demo GIF + all Chrome Web Store assets.
 # Run inside the Docker image (ffmpeg + Chromium deps pre-installed) for
-# reproducibility. See Dockerfile and `npm run render:docker`.
+# reproducibility. See remotion/Dockerfile and `npm run render:docker`.
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Script lives at remotion/scripts/render-all.sh; the project root is two
+# levels up.
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 
 mkdir -p docs/store

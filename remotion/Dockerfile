@@ -1,7 +1,9 @@
 # Reproducible Remotion render environment for the keeptidy demo GIF
-# and Chrome Web Store assets. Build:
+# and Chrome Web Store assets. The build context is the repo root, but
+# this Dockerfile lives in remotion/ so the demo subsystem is
+# self-contained. Build (from repo root):
 #
-#   docker build -t keeptidy-render .
+#   docker build -t keeptidy-render -f remotion/Dockerfile .
 #
 # Run (outputs land in ./docs and ./docs/store on the host):
 #
@@ -29,6 +31,6 @@ COPY . .
 # Pre-download the Chromium Remotion uses, so `docker run` doesn't pay that
 # cost on first render. (Playwright bundles its own Chromium for E2E, but
 # Remotion uses a separate copy from @remotion/renderer.)
-RUN node scripts/ensure-browser.mjs
+RUN node remotion/scripts/ensure-browser.mjs
 
-CMD ["bash", "scripts/render-all.sh"]
+CMD ["bash", "remotion/scripts/render-all.sh"]
