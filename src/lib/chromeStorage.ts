@@ -7,6 +7,12 @@ export const SETTINGS_DEFAULTS: Settings = {
   frequency: '6h',
   exemptDomains: ['github.com', '*.notion.so', 'mail.google.com', 'localhost'],
   autoTidy: true,
+  categories: {
+    history: true,
+    downloads: true,
+    cookies: true,
+    siteData: true,
+  },
 };
 
 const SETTINGS_KEY = 'settings';
@@ -16,7 +22,15 @@ const IN_FLIGHT_KEY = 'inFlight';
 
 export async function getSettings(): Promise<Settings> {
   const raw = await chrome.storage.sync.get(SETTINGS_KEY);
-  return { ...SETTINGS_DEFAULTS, ...(raw[SETTINGS_KEY] ?? {}) };
+  const stored = (raw[SETTINGS_KEY] ?? {}) as Partial<Settings>;
+  return {
+    ...SETTINGS_DEFAULTS,
+    ...stored,
+    categories: {
+      ...SETTINGS_DEFAULTS.categories,
+      ...(stored.categories ?? {}),
+    },
+  };
 }
 
 export async function setSettings(patch: Partial<Settings>): Promise<Settings> {

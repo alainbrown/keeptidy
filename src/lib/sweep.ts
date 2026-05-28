@@ -24,6 +24,7 @@ export async function runSweep(trigger: 'auto' | 'manual'): Promise<Run> {
   await setInFlight({ startedAt, trigger });
 
   try {
+    const { categories } = settings;
     const domains = await getAllDomainsWithLastVisit();
     const { inactive } = partitionByThreshold(
       domains,
@@ -32,9 +33,22 @@ export async function runSweep(trigger: 'auto' | 'manual'): Promise<Run> {
       startedAt,
     );
 
-    await clearDomainData(inactive.map((d) => d.domain));
-    const deletedHistory = await deleteOldHistory(cutoff);
-    const deletedDownloads = await deleteOldDownloads(cutoff);
+    const dataToRemove: chrome.browsingData.DataTypeSet = {};
+    if (categories.cookies) dataToRemove.cookies = true;
+    if (categories.siteData) {
+      dataToRemove.cacheStorage = true;
+      dataToRemove.indexedDB = true;
+      dataToRemove.localStorage = true;
+      dataToRemove.serviceWorkers = true;
+    }
+    await clearDomainData(inactive.map((d) => d.domain), dataToRemove);
+
+    const deletedHistory = categories.history
+      ? await deleteOldHistory(cutoff)
+      : 0;
+    const deletedDownloads = categories.downloads
+      ? await deleteOldDownloads(cutoff)
+      : 0;
 
     const run: Run = {
       ts: Date.now(),

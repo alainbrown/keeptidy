@@ -9,11 +9,19 @@ export type ThresholdPreset =
   | '6mo'
   | '1yr';
 
+export interface CategoryFlags {
+  history: boolean;
+  downloads: boolean;
+  cookies: boolean;
+  siteData: boolean;
+}
+
 export interface Settings {
   thresholdMs: number;
   frequency: FrequencyPreset;
   exemptDomains: string[];
   autoTidy: boolean;
+  categories: CategoryFlags;
 }
 
 export interface Run {

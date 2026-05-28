@@ -1,4 +1,5 @@
 import type { DomainBucket, Run, Settings } from '../lib/types';
+import { CategoriesPanel } from './CategoriesPanel';
 import { DangerStrip } from './DangerStrip';
 import { ExemptDomainsPanel } from './ExemptDomainsPanel';
 import { FrequencyPanel } from './FrequencyPanel';
@@ -44,6 +45,11 @@ export function Options(props: OptionsProps) {
         keptCount={vm.keptCount}
         buckets={vm.domainBuckets}
         onChange={(ms) => onSettingChange('thresholdMs', ms)}
+      />
+
+      <CategoriesPanel
+        value={settings.categories}
+        onChange={(next) => onSettingChange('categories', next)}
       />
 
       <div className="below">

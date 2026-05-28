@@ -14,6 +14,12 @@ const SETTINGS: Settings = {
   frequency: '6h',
   exemptDomains: ['github.com', '*.notion.so', 'mail.google.com', 'localhost'],
   autoTidy: true,
+  categories: {
+    history: true,
+    downloads: true,
+    cookies: true,
+    siteData: true,
+  },
 };
 
 export const OptionsDemo = () => {

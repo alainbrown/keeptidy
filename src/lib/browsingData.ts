@@ -1,16 +1,11 @@
-export async function clearDomainData(domains: string[]): Promise<void> {
+export async function clearDomainData(
+  domains: string[],
+  dataToRemove: chrome.browsingData.DataTypeSet,
+): Promise<void> {
   if (domains.length === 0) return;
+  if (Object.keys(dataToRemove).length === 0) return;
   const origins = domains.flatMap((d) => [`https://${d}`, `http://${d}`]);
-  await chrome.browsingData.remove(
-    { origins },
-    {
-      cookies: true,
-      cacheStorage: true,
-      indexedDB: true,
-      localStorage: true,
-      serviceWorkers: true,
-    },
-  );
+  await chrome.browsingData.remove({ origins }, dataToRemove);
 }
 
 export async function deleteOldHistory(beforeMs: number): Promise<number> {
