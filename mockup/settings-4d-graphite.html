@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>keeptidy — settings · graphite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg-1: #f6f6f3;
+    --bg-2: #ececea;
+    --ink: #14141a;
+    --ink-2: #56565a;
+    --ink-3: #9a9a98;
+    --rule: #e0e0dd;
+    --rule-2: #c9c9c4;
+    --panel: #ffffff;
+    --lime: #c8ff00;
+    --lime-2: #aede12;
+    --lime-deep: #6f8a00;
+    --red: #ff3a21;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    background:var(--bg-1);color:var(--ink);
+    font-family:"Funnel Sans",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    letter-spacing:-0.003em;
+  }
+
+  /* graphite gradient + fine dot grid */
+  body{
+    background:
+      radial-gradient(ellipse 70% 50% at 100% 0%, rgba(0,0,0,0.04), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 0% 100%, rgba(200,255,0,0.05), transparent 60%),
+      linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    background-attachment:fixed;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='1' cy='1' r='0.6' fill='%2314141a' opacity='0.18'/%3E%3C/svg%3E");
+    background-size:24px 24px;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;
+  }
+
+  .wrap{max-width:1120px;margin:0 auto;padding:56px 32px 72px;position:relative;z-index:1}
+
+  /* TOP */
+  .top{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding-bottom:28px;border-bottom:1px solid var(--rule);
+  }
+  .brand{display:flex;align-items:baseline;gap:16px}
+  .brand h1{
+    font-family:"Funnel Display",sans-serif;
+    font-size:42px;font-weight:300;letter-spacing:-0.05em;line-height:1;
+  }
+  .brand h1 em{font-style:normal;font-weight:700}
+  .brand h1 em::after{content:".";color:var(--lime-deep)}
+  .brand .sub{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
+  .top-right{display:flex;gap:24px;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-2)}
+  .top-right .live{color:var(--ink);font-weight:500;display:flex;align-items:center;gap:8px}
+  .top-right .live::before{
+    content:"";width:8px;height:8px;border-radius:50%;background:var(--lime);
+    box-shadow:0 0 0 3px rgba(200,255,0,0.35), 0 0 8px rgba(200,255,0,0.5);
+  }
+
+  /* TIMELINE PANEL */
+  .timeline-wrap{
+    margin:36px 0 32px;
+    background:linear-gradient(180deg, #ffffff, #fafafa);
+    border:1px solid var(--rule);
+    padding:32px 36px 24px;
+    position:relative;
+    border-radius:4px;
+    box-shadow:0 1px 0 rgba(255,255,255,0.8) inset, 0 24px 48px -24px rgba(0,0,0,0.12);
+  }
+  .timeline-wrap::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg, transparent, var(--lime) 50%, transparent);
+  }
+
+  .tl-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px}
+  .tl-title{
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-2);font-family:"JetBrains Mono",monospace;
+  }
+  .tl-stats{display:flex;gap:36px;align-items:baseline}
+  .tl-stat{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+  .tl-stat .k{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
+  .tl-stat .v{
+    font-family:"Funnel Display",sans-serif;font-weight:300;
+    font-size:38px;line-height:1;letter-spacing:-0.04em;
+  }
+  .tl-stat .v em{font-weight:700;font-style:normal}
+  .tl-stat .v.lime{
+    background:linear-gradient(135deg, var(--lime-deep) 0%, #4d6300 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  .tl{position:relative;height:170px;margin:24px 0 8px}
+  .tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+
+  .axis-labels{
+    position:absolute;top:112px;left:0;right:0;
+    display:flex;justify-content:space-between;
+    font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.06em;color:var(--ink-3);
+  }
+  .axis-labels .now{color:var(--ink);font-weight:500}
+
+  .threshold-card{
+    position:absolute;top:-8px;transform:translateX(-50%);
+    background:var(--ink);color:var(--lime);
+    padding:7px 14px;
+    font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.04em;
+    white-space:nowrap;cursor:ew-resize;border-radius:2px;
+    box-shadow:0 6px 14px -4px rgba(0,0,0,0.4);
+  }
+  .threshold-card::after{
+    content:"";position:absolute;left:50%;top:100%;
+    width:1px;height:8px;background:var(--ink);transform:translateX(-50%);
+  }
+
+  .region-labels{position:absolute;top:144px;left:0;right:0;height:18px;pointer-events:none}
+  .region-labels span{
+    position:absolute;font-family:"JetBrains Mono",monospace;
+    font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  }
+  .region-labels .pruned{color:var(--ink-2);left:8px}
+  .region-labels .kept{color:var(--lime-deep);right:8px;font-weight:500}
+
+  .hint{
+    margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.06em;
+    color:var(--ink-3);text-align:center;
+  }
+  .hint kbd{
+    background:var(--bg-1);border:1px solid var(--rule-2);padding:1px 6px;
+    font-family:inherit;color:var(--ink);font-size:10px;border-radius:2px;
+  }
+
+  .presets{display:flex;gap:6px;margin-top:18px}
+  .preset{
+    flex:1;padding:12px 8px;
+    background:var(--bg-1);
+    border:1px solid var(--rule);
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.06em;
+    color:var(--ink-2);cursor:pointer;text-align:center;
+    transition:all .15s;border-radius:2px;
+  }
+  .preset:hover{border-color:var(--ink);color:var(--ink);background:#fff}
+  .preset.on{
+    background:var(--ink);color:var(--lime);border-color:var(--ink);font-weight:500;
+    box-shadow:0 0 0 1px var(--ink), 0 6px 12px -4px rgba(0,0,0,0.2);
+  }
+
+  /* PANELS */
+  .below{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:14px}
+  .panel{
+    background:var(--panel);border:1px solid var(--rule);
+    padding:22px 22px 20px;border-radius:4px;
+    box-shadow:0 6px 18px -12px rgba(0,0,0,0.12);
+  }
+  .panel h2{
+    font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ink-2);margin-bottom:18px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .panel h2 .badge{
+    font-family:"Funnel Sans",sans-serif;font-weight:600;
+    font-size:10px;letter-spacing:.02em;text-transform:none;
+    background:var(--ink);color:var(--lime);padding:2px 10px;border-radius:10px;
+  }
+
+  /* Schedule */
+  .sched{display:flex;flex-direction:column;gap:1px;background:var(--rule)}
+  .sched-row{
+    background:#fff;padding:11px 0;cursor:pointer;
+    display:flex;align-items:center;gap:12px;transition:padding-left .15s;
+  }
+  .sched-row:hover{padding-left:6px}
+  .sched-row .dot{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--ink-3);flex-shrink:0;background:#fff}
+  .sched-row.on .dot{
+    background:var(--lime);border-color:var(--ink);
+    box-shadow:0 0 0 3px var(--ink);
+  }
+  .sched-row .name{font-size:14px;font-weight:400;color:var(--ink-2)}
+  .sched-row.on .name{color:var(--ink);font-weight:600}
+  .sched-row .time{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-3);letter-spacing:.06em}
+
+  /* Domains */
+  .doms{display:flex;flex-direction:column;gap:6px}
+  .dom{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:8px 12px;background:var(--bg-1);
+    border:1px solid var(--rule);border-radius:2px;
+    font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink);
+  }
+  .dom .x{color:var(--ink-3);cursor:pointer;font-family:"Funnel Sans",sans-serif;font-size:16px;line-height:1;font-weight:300}
+  .dom .x:hover{color:var(--red)}
+  .add-input{margin-top:10px;display:flex;gap:4px}
+  .add-input input{
+    flex:1;padding:8px 10px;background:var(--bg-1);
+    border:1px solid var(--rule);color:var(--ink);
+    font-family:"JetBrains Mono",monospace;font-size:11px;border-radius:2px;
+  }
+  .add-input input::placeholder{color:var(--ink-3)}
+  .add-input button{
+    padding:0 14px;background:var(--lime);
+    border:1px solid var(--lime-2);color:var(--ink);font-family:"JetBrains Mono",monospace;
+    font-size:13px;font-weight:700;cursor:pointer;border-radius:2px;
+  }
+  .add-input button:hover{background:var(--lime-2)}
+
+  /* Runs */
+  .runs{display:flex;flex-direction:column;gap:4px}
+  .run{
+    display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:baseline;
+    padding:6px 0;border-bottom:1px solid var(--rule);
+  }
+  .run:last-child{border-bottom:none}
+  .run .when{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-3);letter-spacing:.04em}
+  .run .what{font-size:13px;color:var(--ink-2)}
+  .run .what em{font-style:normal;color:var(--ink);font-weight:600}
+  .run .n{
+    font-family:"Funnel Display",sans-serif;font-size:16px;font-weight:700;color:var(--ink);
+    letter-spacing:-0.02em;
+  }
+  .run .n.zero{color:var(--ink-3);font-weight:400}
+
+  /* DANGER */
+  .danger-strip{
+    margin-top:16px;
+    display:flex;align-items:center;gap:16px;
+    background:#fff;
+    border:1px solid var(--red);
+    padding:16px 22px;border-radius:4px;
+    position:relative;
+  }
+  .danger-strip::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);
+  }
+  .danger-strip .t{flex:1}
+  .danger-strip .t b{
+    color:var(--red);font-family:"Funnel Display",sans-serif;
+    font-weight:700;font-size:16px;letter-spacing:-0.01em;display:block;text-transform:uppercase;
+  }
+  .danger-strip .t p{font-size:12px;color:var(--ink-2);margin-top:4px}
+  .danger-strip button{
+    padding:10px 18px;border:1px solid var(--red);background:transparent;color:var(--red);
+    font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;
+    border-radius:2px;transition:all .15s;font-weight:500;
+  }
+  .danger-strip button:hover{background:var(--red);color:#fff}
+
+  footer{
+    margin-top:48px;display:flex;justify-content:space-between;align-items:center;
+    font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+  footer .saved{color:var(--ink-2)}
+  footer .saved::before{
+    content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--lime);
+    box-shadow:0 0 0 2px var(--ink);margin-right:10px;vertical-align:1px;
+  }
+
+  @media(max-width:880px){
+    .below{grid-template-columns:1fr}
+    .tl-stats{gap:18px}
+    .tl-stat .v{font-size:26px}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <h1>keep<em>tidy</em></h1>
+        <span class="sub">settings · graphite</span>
+      </div>
+      <div class="top-right">
+        <span class="live">auto-tidy on</span>
+        <span>next 03:00</span>
+        <span>2026·05·27</span>
+      </div>
+    </header>
+
+    <section class="timeline-wrap">
+      <div class="tl-header">
+        <div class="tl-title">timeline · drag to set threshold</div>
+        <div class="tl-stats">
+          <div class="tl-stat"><span class="k">threshold</span><span class="v"><em>2</em>mo</span></div>
+          <div class="tl-stat"><span class="k">pending</span><span class="v"><em>1,247</em></span></div>
+          <div class="tl-stat"><span class="k">kept</span><span class="v lime"><em>20,530</em></span></div>
+        </div>
+      </div>
+
+      <div class="tl">
+        <svg viewBox="0 0 1000 170" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="prunedG" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#14141a" stop-opacity="0.04"/>
+              <stop offset="100%" stop-color="#14141a" stop-opacity="0.14"/>
+            </linearGradient>
+            <linearGradient id="keptG" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#c8ff00" stop-opacity="0.28"/>
+              <stop offset="100%" stop-color="#c8ff00" stop-opacity="0.08"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="60" width="700" height="40" fill="url(#prunedG)"/>
+          <rect x="700" y="60" width="300" height="40" fill="url(#keptG)"/>
+          <line x1="0" y1="100" x2="1000" y2="100" stroke="#14141a" stroke-opacity="0.5" stroke-width="1"/>
+
+          <g stroke="#14141a" stroke-opacity="0.4" stroke-width="1">
+            <line x1="60" y1="100" x2="60" y2="106"/>
+            <line x1="200" y1="100" x2="200" y2="106"/>
+            <line x1="340" y1="100" x2="340" y2="106"/>
+            <line x1="500" y1="100" x2="500" y2="106"/>
+            <line x1="700" y1="100" x2="700" y2="106"/>
+            <line x1="820" y1="100" x2="820" y2="106"/>
+            <line x1="900" y1="100" x2="900" y2="106"/>
+            <line x1="960" y1="100" x2="960" y2="106"/>
+            <line x1="1000" y1="100" x2="1000" y2="114" stroke="#14141a" stroke-opacity="1" stroke-width="2"/>
+          </g>
+
+          <g fill="#14141a">
+            <circle cx="985" cy="128" r="3"/><circle cx="975" cy="128" r="3"/>
+            <circle cx="965" cy="128" r="3"/><circle cx="945" cy="128" r="2.5"/>
+            <circle cx="920" cy="128" r="2.5"/><circle cx="900" cy="128" r="2.5"/>
+            <circle cx="870" cy="128" r="2.5"/><circle cx="840" cy="128" r="2.5"/>
+            <circle cx="800" cy="128" r="2"/><circle cx="760" cy="128" r="2"/>
+          </g>
+
+          <line x1="700" y1="36" x2="700" y2="150" stroke="#14141a" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <circle cx="700" cy="100" r="8" fill="#c8ff00" stroke="#14141a" stroke-width="2"/>
+
+          <circle cx="1000" cy="100" r="6" fill="#14141a"/>
+          <circle cx="1000" cy="100" r="11" fill="none" stroke="#14141a" stroke-opacity="0.25" stroke-width="1.5"/>
+        </svg>
+
+        <div class="threshold-card" style="left:70%">◄ 2 months · 60 days ►</div>
+        <div class="region-labels">
+          <span class="pruned">pruned · 1,247</span>
+          <span class="kept">kept · 20,530</span>
+        </div>
+        <div class="axis-labels">
+          <span>2 yr</span><span>1 yr</span><span>6 mo</span><span>3 mo</span>
+          <span>2 mo</span><span>1 mo</span><span>2 w</span><span>1 w</span>
+          <span class="now">today</span>
+        </div>
+      </div>
+
+      <div class="hint">drag the <kbd>◆</kbd> to set the threshold, or pick a preset</div>
+
+      <div class="presets">
+        <button class="preset">1 day</button>
+        <button class="preset">1 week</button>
+        <button class="preset">2 weeks</button>
+        <button class="preset">1 month</button>
+        <button class="preset on">2 months</button>
+        <button class="preset">6 months</button>
+        <button class="preset">1 year</button>
+      </div>
+    </section>
+
+    <div class="below">
+      <div class="panel">
+        <h2>schedule <span class="badge">daily · 03:00</span></h2>
+        <div class="sched">
+          <div class="sched-row"><span class="dot"></span><span class="name">Manual only</span><span class="time">on demand</span></div>
+          <div class="sched-row on"><span class="dot"></span><span class="name">Daily</span><span class="time">03:00 local</span></div>
+          <div class="sched-row"><span class="dot"></span><span class="name">Weekly</span><span class="time">sundays · 03:00</span></div>
+          <div class="sched-row"><span class="dot"></span><span class="name">On browser idle</span><span class="time">when away</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>exempt domains <span class="badge">4 kept</span></h2>
+        <div class="doms">
+          <div class="dom"><span>github.com</span><span class="x">×</span></div>
+          <div class="dom"><span>*.notion.so</span><span class="x">×</span></div>
+          <div class="dom"><span>mail.google.com</span><span class="x">×</span></div>
+          <div class="dom"><span>localhost</span><span class="x">×</span></div>
+        </div>
+        <div class="add-input">
+          <input type="text" placeholder="add domain..." />
+          <button>+</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>recent runs <span class="badge">last 5</span></h2>
+        <div class="runs">
+          <div class="run"><span class="when">24/05</span><span class="what">past <em>2mo</em></span><span class="n">874</span></div>
+          <div class="run"><span class="when">23/05</span><span class="what">past <em>2mo</em></span><span class="n">62</span></div>
+          <div class="run"><span class="when">22/05</span><span class="what"><em>youtube</em></span><span class="n">418</span></div>
+          <div class="run"><span class="when">22/05</span><span class="what">past <em>2mo</em></span><span class="n">54</span></div>
+          <div class="run"><span class="when">21/05</span><span class="what">nothing to tidy</span><span class="n zero">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="danger-strip">
+      <div class="t">
+        <b>Erase the entire history</b>
+        <p>Removes every entry regardless of threshold or exempt rules. Bookmarks and passwords untouched.</p>
+      </div>
+      <button>Erase everything</button>
+    </div>
+
+    <footer>
+      <span class="saved">all changes saved</span>
+      <span>graphite · 4d</span>
+    </footer>
+  </div>
+</body>
+</html>
