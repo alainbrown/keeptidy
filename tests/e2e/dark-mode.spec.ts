@@ -20,6 +20,8 @@ test('options page applies dark tokens when the system prefers dark', async ({
     return {
       bg1: style.getPropertyValue('--bg-1').trim(),
       ink: style.getPropertyValue('--ink').trim(),
+      ink2: style.getPropertyValue('--ink-2').trim(),
+      ink3: style.getPropertyValue('--ink-3').trim(),
       panel: style.getPropertyValue('--panel').trim(),
       surfaceRaised: style.getPropertyValue('--surface-raised').trim(),
       // lime should stay the same across themes
@@ -29,6 +31,10 @@ test('options page applies dark tokens when the system prefers dark', async ({
 
   expect(tokens.bg1).toBe('#131316');
   expect(tokens.ink).toBe('#f6f6f3');
+  // Secondary text tokens need enough luminance on the dark ground —
+  // verify both are bright enough to remain readable.
+  expect(tokens.ink2).toBe('#d0d0d4');
+  expect(tokens.ink3).toBe('#92929a');
   expect(tokens.panel).toBe('#202028');
   expect(tokens.surfaceRaised).toBe('#2a2a30');
   expect(tokens.lime).toBe('#c8ff00');
