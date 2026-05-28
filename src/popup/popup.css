@@ -160,8 +160,8 @@ body {
   margin: 0 20px;
   width: calc(100% - 40px);
   padding: 14px 18px;
-  background: var(--ink);
-  color: var(--lime);
+  background: var(--surface-raised);
+  color: var(--surface-raised-fg);
   border-radius: 4px;
   font-family: var(--font-mono);
   font-size: 12px;
@@ -258,9 +258,9 @@ body {
   color: var(--ink);
 }
 .popup .pill.on {
-  background: var(--ink);
-  color: var(--lime);
-  border-color: var(--ink);
+  background: var(--surface-raised);
+  color: var(--surface-raised-fg);
+  border-color: var(--surface-raised);
   font-weight: 500;
   box-shadow: 0 4px 10px -4px rgba(20, 20, 26, 0.3);
 }
@@ -330,3 +330,17 @@ body {
   text-transform: uppercase;
   color: var(--ink-3);
 }
+
+/* Dark-mode override for the dot-grid SVG pattern. The fill is baked into
+   the data URI, so a media query swap is the simplest route. */
+@media (prefers-color-scheme: dark) {
+  .popup::before {
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='1' cy='1' r='0.55' fill='%23f6f6f3' opacity='0.07'/%3E%3C/svg%3E");
+  }
+  /* Subtle footer wash flips from black-ish to white-ish so it still
+     reads as a soft tone change at the bottom edge. */
+  .popup .foot {
+    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.025));
+  }
+}
+

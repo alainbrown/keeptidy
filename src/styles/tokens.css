@@ -14,7 +14,33 @@
   --lime-deep: #6f8a00;
   --red: #ff3a21;
 
+  /* Dark surface for "elevated" affordances (primary button, pill-on,
+     switch-on, badge). Stays dark in both themes — semantically it's a
+     contrast against the page bg, not the ink text color. */
+  --surface-raised: #14141a;
+  --surface-raised-fg: #c8ff00;
+
   --font-display: "Funnel Display", sans-serif;
   --font-sans: "Funnel Sans", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-1: #131316;
+    --bg-2: #1c1c20;
+    --ink: #f6f6f3;
+    --ink-2: #b8b8bc;
+    --ink-3: #6a6a72;
+    --rule: #2a2a30;
+    --rule-2: #3a3a42;
+    --panel: #202028;
+    /* lime stays — works on both grounds. lime-deep brightens for
+       readable contrast on dark surfaces. */
+    --lime-deep: #d4ff4d;
+
+    --surface-raised: #2a2a30;
+    /* fg stays lime — the lime accent on a dark raised surface reads in
+       both themes. */
+  }
 }

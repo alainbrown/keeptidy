@@ -31,6 +31,12 @@ interface MiniTimelineProps {
   lastSweep: { agoLabel: string; count: number } | null;
 }
 
+// SVG attributes (stroke/fill/stopColor) don't resolve CSS variables on
+// their own, but the `style` attribute does. So we set theme-aware
+// colors via inline style to pick up the light/dark token values.
+const INK = { color: 'var(--ink)' } as const;
+const LIME = { color: 'var(--lime)' } as const;
+
 export function MiniTimeline({
   thresholdMs,
   buckets,
@@ -56,12 +62,12 @@ export function MiniTimeline({
       >
         <defs>
           <linearGradient id="popPruned" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#14141a" stopOpacity="0.05" />
-            <stop offset="100%" stopColor="#14141a" stopOpacity="0.16" />
+            <stop offset="0%" style={{ stopColor: INK.color }} stopOpacity="0.05" />
+            <stop offset="100%" style={{ stopColor: INK.color }} stopOpacity="0.16" />
           </linearGradient>
           <linearGradient id="popKept" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#c8ff00" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#c8ff00" stopOpacity="0.1" />
+            <stop offset="0%" style={{ stopColor: LIME.color }} stopOpacity="0.35" />
+            <stop offset="100%" style={{ stopColor: LIME.color }} stopOpacity="0.1" />
           </linearGradient>
         </defs>
 
@@ -85,12 +91,12 @@ export function MiniTimeline({
           y1={19}
           x2={VW}
           y2={19}
-          stroke="#14141a"
+          style={{ stroke: INK.color }}
           strokeOpacity={0.5}
           strokeWidth={0.8}
         />
 
-        <g stroke="#14141a" strokeOpacity={0.35} strokeWidth={0.8}>
+        <g style={{ stroke: INK.color }} strokeOpacity={0.35} strokeWidth={0.8}>
           {TICKS.slice(0, -1).map((t) => {
             const x = ageToX(t.ms);
             return <line key={t.label} x1={x} y1={19} x2={x} y2={22} />;
@@ -105,7 +111,7 @@ export function MiniTimeline({
           />
         </g>
 
-        <g fill="#14141a" opacity={0.7}>
+        <g style={{ fill: INK.color }} opacity={0.7}>
           {buckets.map((b, i) => {
             const x = ageToX(b.lastVisitAgoMs);
             const r = 0.8 + (b.domainCount / maxCount) * 1.4;
@@ -118,7 +124,7 @@ export function MiniTimeline({
           y1={4}
           x2={thresholdX}
           y2={32}
-          stroke="#14141a"
+          style={{ stroke: INK.color }}
           strokeWidth={1}
           strokeDasharray="2,2"
         />
@@ -126,12 +132,11 @@ export function MiniTimeline({
           cx={thresholdX}
           cy={19}
           r={4.5}
-          fill="#c8ff00"
-          stroke="#14141a"
+          style={{ fill: LIME.color, stroke: INK.color }}
           strokeWidth={1.2}
         />
 
-        <circle cx={VW} cy={19} r={3.5} fill="#14141a" />
+        <circle cx={VW} cy={19} r={3.5} style={{ fill: INK.color }} />
       </svg>
       <div className="ticks">
         {TICKS.map((t) => (

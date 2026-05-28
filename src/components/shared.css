@@ -85,18 +85,18 @@
   left: 1px;
   width: 18px;
   height: 18px;
-  background: var(--ink);
+  background: var(--surface-raised);
   border-radius: 50%;
   transition: transform 0.2s ease, background 0.2s ease;
 }
 .switch.on {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--surface-raised);
+  border-color: var(--surface-raised);
 }
 .switch.on::after {
   background: var(--lime);
   transform: translateX(20px);
-  box-shadow: 0 0 0 2px var(--ink), 0 0 8px rgba(200, 255, 0, 0.5);
+  box-shadow: 0 0 0 2px var(--surface-raised), 0 0 8px rgba(200, 255, 0, 0.5);
 }
 
 /* Checkbox */
@@ -118,7 +118,7 @@
   height: 18px;
   border: 1.5px solid var(--ink-3);
   border-radius: 3px;
-  background: #fff;
+  background: var(--panel);
   position: relative;
   transition: all 0.15s ease;
   flex-shrink: 0;
@@ -127,8 +127,8 @@
   border-color: var(--ink);
 }
 .checkbox.on {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--surface-raised);
+  border-color: var(--surface-raised);
 }
 .checkbox.on::after {
   content: "";

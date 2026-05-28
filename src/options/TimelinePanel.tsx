@@ -139,12 +139,12 @@ export function TimelinePanel({
         >
           <defs>
             <linearGradient id="prunedG" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#14141a" stopOpacity="0.04" />
-              <stop offset="100%" stopColor="#14141a" stopOpacity="0.14" />
+              <stop offset="0%" style={{ stopColor: 'var(--ink)' }} stopOpacity="0.04" />
+              <stop offset="100%" style={{ stopColor: 'var(--ink)' }} stopOpacity="0.14" />
             </linearGradient>
             <linearGradient id="keptG" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#c8ff00" stopOpacity="0.28" />
-              <stop offset="100%" stopColor="#c8ff00" stopOpacity="0.08" />
+              <stop offset="0%" style={{ stopColor: 'var(--lime)' }} stopOpacity="0.28" />
+              <stop offset="100%" style={{ stopColor: 'var(--lime)' }} stopOpacity="0.08" />
             </linearGradient>
           </defs>
           <rect
@@ -166,12 +166,12 @@ export function TimelinePanel({
             y1={100}
             x2={VW}
             y2={100}
-            stroke="#14141a"
+            style={{ stroke: 'var(--ink)' }}
             strokeOpacity={0.5}
             strokeWidth={1}
           />
 
-          <g stroke="#14141a" strokeOpacity={0.4} strokeWidth={1}>
+          <g style={{ stroke: 'var(--ink)' }} strokeOpacity={0.4} strokeWidth={1}>
             {TICKS.slice(0, -1).map((t) => {
               const x = ageToX(t.ms);
               return <line key={t.label} x1={x} y1={100} x2={x} y2={106} />;
@@ -186,7 +186,7 @@ export function TimelinePanel({
             />
           </g>
 
-          <g fill="#14141a">
+          <g style={{ fill: 'var(--ink)' }}>
             {buckets.map((b, i) => {
               const x = ageToX(b.lastVisitAgoMs);
               const r = 1.5 + (b.domainCount / maxCount) * 2;
@@ -199,7 +199,7 @@ export function TimelinePanel({
             y1={36}
             x2={thresholdX}
             y2={150}
-            stroke="#14141a"
+            style={{ stroke: 'var(--ink)' }}
             strokeWidth={1.5}
             strokeDasharray="4,3"
           />
@@ -207,20 +207,18 @@ export function TimelinePanel({
             cx={thresholdX}
             cy={100}
             r={8}
-            fill="#c8ff00"
-            stroke="#14141a"
+            style={{ fill: 'var(--lime)', stroke: 'var(--ink)', cursor: 'ew-resize' }}
             strokeWidth={2}
-            style={{ cursor: 'ew-resize' }}
             onPointerDown={beginDrag}
           />
 
-          <circle cx={VW} cy={100} r={6} fill="#14141a" />
+          <circle cx={VW} cy={100} r={6} style={{ fill: 'var(--ink)' }} />
           <circle
             cx={VW}
             cy={100}
             r={11}
             fill="none"
-            stroke="#14141a"
+            style={{ stroke: 'var(--ink)' }}
             strokeOpacity={0.25}
             strokeWidth={1.5}
           />
