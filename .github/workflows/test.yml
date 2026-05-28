@@ -1,0 +1,46 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Reusable so release.yml can call this exact job before publishing.
+  workflow_call:
+
+concurrency:
+  # Cancel in-flight runs for the same PR when a new commit lands; let
+  # main/release runs complete on their own.
+  group: tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      # The lockfile carries peer-dep deferrals from the React 19 / Vite 8
+      # bump; npm ci is strict without --legacy-peer-deps and would reject
+      # them. Mirrors the host install convention.
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Unit tests (vitest)
+        run: npm run test:unit
+
+      # The E2E fixture uses Playwright's bundled Chromium via
+      # channel: 'chromium'. --with-deps installs the libnss/libatk/etc.
+      # shared libs on top of the Chromium binary.
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: E2E tests (playwright)
+        run: npm run test:e2e
