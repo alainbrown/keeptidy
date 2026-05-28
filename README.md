@@ -20,10 +20,14 @@ older than the threshold are trimmed per-entry across all domains.
   preset (1 day → 1 year).
 - **Frequency** — manual, hourly, every 6 hours, every 24 hours.
   Browser-uptime based, not wall-clock.
+- **Categories** — choose which data types get cleaned (history,
+  downloads, cookies, site data) independently.
 - **Exempt list** — wildcard-aware patterns like `*.notion.so` or
-  `localhost`.
+  `localhost`. Ships with sensible defaults covering Google /
+  Microsoft SSO, common dev/work tools, and `localhost`.
 - **Erase everything** — one-shot full wipe, still leaves bookmarks
   and passwords alone.
+- **Dark mode** — follows the system color preference automatically.
 
 ## Quick start
 
@@ -43,11 +47,11 @@ npm run dev
 
 ## Stack
 
-- React 18 + TypeScript
-- Vite 5 + [@crxjs/vite-plugin](https://crxjs.dev/) for MV3 bundling
+- React 19 + TypeScript 6
+- Vite 8 + [@crxjs/vite-plugin](https://crxjs.dev/) for MV3 bundling
 - Plain CSS with design tokens — no UI framework
 - [Remotion](https://www.remotion.dev) for programmatic demo videos
-- Vitest + Playwright for tests
+- Vitest 4 + Playwright for tests
 
 ## Project structure
 
@@ -86,13 +90,16 @@ npx playwright install chromium
 ```
 
 The E2E suite launches a fresh Chromium profile with `dist/` loaded
-as an unpacked extension. Two journeys:
+as an unpacked extension. Four tests:
 
 1. **Settings UI** — change a preset, add an exempt domain, reload
    and verify persistence.
 2. **Sweep** — seed history, let it age past a 2-second threshold,
    trigger `tidy-now` via the service worker, and verify only the
    intended entries are gone.
+3. **Dark tokens** — `prefers-color-scheme: dark` emulation, assert
+   the canonical design tokens flip to their dark values on `:root`.
+4. **Light tokens** — same in reverse, locking the light baseline.
 
 ## Demo + Chrome Web Store assets
 
