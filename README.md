@@ -1,13 +1,15 @@
 # keeptidy
 
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/pfpiokdfomohlaohmcdncmjafhafdpfb?logo=googlechrome&logoColor=white&label=Chrome%20Web%20Store)](https://chromewebstore.google.com/detail/pfpiokdfomohlaohmcdncmjafhafdpfb)
+[![Tests](https://github.com/alainbrown/keeptidy/actions/workflows/test.yml/badge.svg)](https://github.com/alainbrown/keeptidy/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A Chrome extension that periodically cleans browsing data for sites
 you've stopped using — history, cookies, local storage, IndexedDB,
 service workers, and cache — while leaving bookmarks and passwords
 untouched.
 
 ![keeptidy demo](docs/demo.gif)
-
-[Higher-quality MP4 →](docs/demo.mp4) (1280×720, ~20s)
 
 ## What it does
 
