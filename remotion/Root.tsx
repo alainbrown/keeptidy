@@ -7,6 +7,7 @@ import { Screenshot4 } from './screenshots/Screenshot4';
 import { Screenshot5 } from './screenshots/Screenshot5';
 import { Marquee } from './store/Marquee';
 import { PromoTile } from './store/PromoTile';
+import { Thumbnail } from './store/Thumbnail';
 
 export const RemotionRoot = () => (
   <>
@@ -31,5 +32,8 @@ export const RemotionRoot = () => (
     {/* Chrome Web Store · promo tiles */}
     <Still id="PromoTile" component={PromoTile} width={440} height={280} />
     <Still id="Marquee" component={Marquee} width={1400} height={560} />
+
+    {/* YouTube thumbnail · 1280×720 */}
+    <Still id="Thumbnail" component={Thumbnail} width={1280} height={720} />
   </>
 );

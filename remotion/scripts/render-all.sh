@@ -39,6 +39,10 @@ echo "→ Rendering marquee (1400×560)…"
 npx remotion still remotion/index.ts Marquee docs/store/marquee.png --log=warn
 echo "  → docs/store/marquee.png"
 
+echo "→ Rendering YouTube thumbnail (1280×720)…"
+npx remotion still remotion/index.ts Thumbnail docs/youtube-thumbnail.png --log=warn
+echo "  → docs/youtube-thumbnail.png"
+
 echo ""
 echo "✓ All assets rendered:"
 ls -lh docs/demo.gif docs/store/ | sed 's/^/  /'
