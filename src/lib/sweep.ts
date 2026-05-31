@@ -33,6 +33,8 @@ export async function runSweep(trigger: 'auto' | 'manual'): Promise<Run> {
       startedAt,
     );
 
+    const inactiveDomains = new Set(inactive.map((d) => d.domain));
+
     const dataToRemove: chrome.browsingData.DataTypeSet = {};
     if (categories.cookies) dataToRemove.cookies = true;
     if (categories.siteData) {
@@ -41,13 +43,13 @@ export async function runSweep(trigger: 'auto' | 'manual'): Promise<Run> {
       dataToRemove.localStorage = true;
       dataToRemove.serviceWorkers = true;
     }
-    await clearDomainData(inactive.map((d) => d.domain), dataToRemove);
+    await clearDomainData([...inactiveDomains], dataToRemove);
 
     const deletedHistory = categories.history
-      ? await deleteOldHistory(cutoff)
+      ? await deleteOldHistory(cutoff, settings.exemptDomains)
       : 0;
     const deletedDownloads = categories.downloads
-      ? await deleteOldDownloads(cutoff)
+      ? await deleteOldDownloads(cutoff, settings.exemptDomains)
       : 0;
 
     const run: Run = {

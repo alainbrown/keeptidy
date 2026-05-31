@@ -23,17 +23,33 @@ Chrome MV3 extension that periodically cleans data for dormant sites
 
 ## Sweep semantics (don't change without discussion)
 
-The "tidy dormant sites" model:
+The model uses **two clocks**, split by what Chrome lets us read. Both
+read the same `thresholdMs` value (default 60 days) and both honor the
+exempt list (`*.notion.so` wildcards supported); they differ only in
+granularity, because site-data has no per-record age the API exposes.
 
-- An **inactive domain** = no entry in `chrome.history` within the
-  threshold window. Exempt list (`*.notion.so` wildcards supported)
-  protects domains from this classification.
-- **Per-entry trimming** for history (`chrome.history.deleteRange`)
-  and downloads (`chrome.downloads.erase`) — old entries get cleaned
-  regardless of whether the domain is still active.
-- **Per-domain wipe** for cookies, localStorage, IndexedDB,
-  serviceWorkers, cacheStorage — only for inactive non-exempt domains
-  via `chrome.browsingData.remove({ origins: [...] }, ...)`.
+- **Cookies + site data → per dormant domain.** localStorage,
+  IndexedDB, serviceWorkers, cacheStorage, and cookies carry no
+  per-record timestamp an extension can read, and
+  `chrome.browsingData.remove` filters only by `origins` or by a `since`
+  floor. So the only age signal available is the **domain's** last
+  visit. An **inactive domain** = no entry in `chrome.history` within
+  the threshold window (`partitionByThreshold`). We wipe site data for
+  inactive non-exempt domains via
+  `chrome.browsingData.remove({ origins: [...] }, ...)`. Recent activity
+  on a domain protects all of its site data.
+- **History + downloads → per entry age.** These *do* carry per-entry
+  timestamps, so they are cleaned by each entry's own age: anything
+  older than `thresholdMs` is removed even if its domain is still
+  active (`deleteOldHistory` / `deleteOldDownloads`, exempt-protected).
+  This is the behavior a "keep 60 days" threshold implies — an old
+  download doesn't linger just because you still visit the site. We
+  iterate per entry (`chrome.history.deleteUrl` per URL;
+  `chrome.downloads.erase`) rather than the cheaper `deleteRange`/range
+  query precisely so we can skip exempt domains. Age subsumes dormancy
+  for history (a dormant domain's newest visit is already past the
+  cutoff), so this pass also covers everything the per-domain pass
+  would have removed.
 - There is **no per-domain targeting** for one-off cleans. The only
   domain-aware mechanism is the exempt list. If you see logic that
   looks like "clean youtube.com only", that's wrong.
