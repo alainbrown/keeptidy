@@ -59,7 +59,18 @@ granularity, because site-data has no per-record age the API exposes.
 Auto-tidy runs on `chrome.alarms` with `periodInMinutes` (not
 wall-clock). The browser fires the alarm whenever it's open and the
 period has elapsed since the last fire. Frequencies: `manual`,
-`hourly`, `6h`, `24h`. See `src/lib/alarms.ts`.
+`hourly` (default), `6h`, `24h`. See `src/lib/alarms.ts`.
+
+The alarm's **initial** fire is decoupled from the period: it's a small
+fixed `STARTUP_DELAY_MINUTES` (~4 min), so each preset really means
+"≈4 min after launch, then every N." This is deliberate.
+`reconcileAlarm` runs on every `onStartup` (and every settings change)
+and clears+recreates the alarm; if the initial delay equalled the
+period, users whose sessions are shorter than the period — and who
+restart before it elapsed — would reset the countdown every launch and
+never get an auto-sweep. The short startup delay guarantees a sweep
+each session (and means fresh installs tidy ~4 min in, not a period
+later).
 
 ## Categories
 

@@ -4,7 +4,7 @@ const DAY = 24 * 60 * 60 * 1000;
 
 export const SETTINGS_DEFAULTS: Settings = {
   thresholdMs: 60 * DAY,
-  frequency: '6h',
+  frequency: 'hourly',
   // Anchored on auth/SSO endpoints (where losing the session re-auths a
   // whole ecosystem) plus high-friction work tools. Users can edit
   // freely; this is just a sensible starting set.
