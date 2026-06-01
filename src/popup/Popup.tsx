@@ -43,7 +43,7 @@ export function Popup(props: PopupProps) {
   return (
     <div className="popup">
       <header className="head">
-        <Wordmark size="sm" version="0.1" />
+        <Wordmark size="sm" />
         <StatusPill on={autoTidy} label={autoTidy ? 'auto on' : 'auto off'} />
       </header>
 
